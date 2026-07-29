@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sem 5 · CS Roadmap — DBMS · Algorithms · Microprocessor</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="icon-32.png">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#0B0E14">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B0E14;
+    --bg-dot: rgba(255,255,255,0.035);
+    --panel:#10151D;
+    --panel-2:#141A24;
+    --line:#232B38;
+    --line-soft:#1A2029;
+    --text:#E7EDF4;
+    --text-dim:#8B98A8;
+    --text-faint:#586275;
+    --dbms:#5EEAD4;
+    --daa:#C9A0FF;
+    --micro:#FFB454;
+    --radius:10px;
+    --mono: 'IBM Plex Mono', ui-monospace, monospace;
+    --sans: 'IBM Plex Sans', system-ui, sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background-color:var(--bg);
+    background-image:
+      radial-gradient(var(--bg-dot) 1px, transparent 1px);
+    background-size: 22px 22px;
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.5;
+    padding-bottom:80px;
+  }
+
+  a{color:inherit;}
+
+  .wrap{max-width:860px;margin:0 auto;padding:32px 20px 0;}
+
+  /* ---------- HEADER ---------- */
+  header.top{padding-bottom:22px;border-bottom:1px solid var(--line-soft);margin-bottom:26px;}
+  .eyebrow{
+    font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--text-faint);
+    text-transform:uppercase;margin:0 0 10px;
+  }
+  h1{
+    font-family:var(--mono);font-weight:600;font-size:clamp(24px,4.5vw,34px);
+    margin:0 0 8px;letter-spacing:-0.01em;
+  }
+  .sub{color:var(--text-dim);font-size:14.5px;margin:0 0 22px;max-width:56ch;}
+  .sub b{color:var(--text);font-weight:600;}
+
+  /* overall circuit-trace progress */
+  .overall{
+    display:flex;flex-direction:column;gap:8px;
+  }
+  .overall-row{display:flex;align-items:center;gap:14px;}
+  .trace-track{
+    position:relative;flex:1;height:10px;border-radius:6px;
+    background:
+      repeating-linear-gradient(90deg, var(--line) 0 6px, transparent 6px 10px);
+    overflow:visible;
+  }
+  .trace-fill{
+    position:relative;height:100%;border-radius:6px;width:0%;
+    background:linear-gradient(90deg, #3fd8c4, var(--dbms));
+    transition:width .5s ease;
+  }
+  .trace-fill::after{
+    content:"";position:absolute;right:-3px;top:50%;translate:0 -50%;
+    width:9px;height:9px;border-radius:50%;background:var(--dbms);
+    box-shadow:0 0 8px 2px rgba(94,234,212,.7);
+  }
+  .overall-pct{font-family:var(--mono);font-weight:600;font-size:15px;min-width:52px;text-align:right;}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:11.5px;color:var(--text-dim);}
+  .legend span{display:inline-flex;align-items:center;gap:6px;}
+  .dot{width:8px;height:8px;border-radius:50%;display:inline-block;}
+
+  /* ---------- TOOLBAR ---------- */
+  .toolbar{
+    display:flex;flex-wrap:wrap;gap:10px;margin:20px 0 28px;
+  }
+  button{
+    font-family:var(--mono);font-size:12px;letter-spacing:.02em;
+    background:var(--panel-2);color:var(--text-dim);border:1px solid var(--line);
+    padding:8px 12px;border-radius:7px;cursor:pointer;transition:.15s border-color, .15s color;
+  }
+  button:hover{color:var(--text);border-color:#3a4556;}
+  button:focus-visible, summary:focus-visible, input:focus-visible{
+    outline:2px solid var(--dbms);outline-offset:2px;
+  }
+  #resetBtn:hover{color:#ff9d9d;border-color:#5a2c2c;}
+  .toolbar .spacer{flex:1;}
+
+  /* ---------- SUBJECT CARDS ---------- */
+  .subject{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    margin-bottom:18px;overflow:hidden;
+  }
+  .subject[data-code="dbms"]{border-top:3px solid var(--dbms);}
+  .subject[data-code="daa"]{border-top:3px solid var(--daa);}
+  .subject[data-code="micro"]{border-top:3px solid var(--micro);}
+  .subject[data-code="lab"]{border-top:3px solid var(--micro);}
+
+  .subject > summary{
+    list-style:none;cursor:pointer;padding:18px 20px;display:flex;flex-direction:column;gap:12px;
+  }
+  .subject > summary::-webkit-details-marker{display:none;}
+  .subject-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
+  .code-tag{
+    font-family:var(--mono);font-size:11px;color:var(--text-faint);
+    border:1px solid var(--line);padding:2px 7px;border-radius:5px;letter-spacing:.03em;
+  }
+  .subject h2{font-size:17px;margin:0;font-weight:600;flex:1;min-width:180px;}
+  .chev{font-family:var(--mono);color:var(--text-faint);font-size:16px;transition:transform .2s;}
+  details[open] > summary .chev{transform:rotate(90deg);}
+
+  .subj-progress-row{display:flex;align-items:center;gap:10px;}
+  .subj-track{flex:1;height:6px;border-radius:4px;background:var(--line-soft);overflow:hidden;}
+  .subj-fill{height:100%;width:0%;border-radius:4px;transition:width .4s ease;}
+  .subj-fill.dbms{background:var(--dbms);}
+  .subj-fill.daa{background:var(--daa);}
+  .subj-fill.micro{background:var(--micro);}
+  .subj-fill.lab{background:var(--micro);}
+  .subj-text{font-family:var(--mono);font-size:11.5px;color:var(--text-dim);white-space:nowrap;}
+
+  .units{padding:0 14px 14px;}
+
+  /* ---------- UNIT ---------- */
+  .unit{border-top:1px solid var(--line-soft);}
+  .unit:first-child{border-top:none;}
+  .unit > summary{
+    list-style:none;cursor:pointer;padding:12px 8px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  }
+  .unit > summary::-webkit-details-marker{display:none;}
+  .unit-num{font-family:var(--mono);font-size:11.5px;color:var(--text-faint);min-width:52px;}
+  .unit-title{font-weight:500;font-size:14.5px;flex:1;min-width:140px;}
+  .unit-hours{font-family:var(--mono);font-size:11px;color:var(--text-faint);}
+  .unit-count{font-family:var(--mono);font-size:11.5px;color:var(--text-dim);min-width:52px;text-align:right;}
+  .unit-chev{font-family:var(--mono);color:var(--text-faint);font-size:14px;transition:transform .2s;}
+  .unit[open] > summary .unit-chev{transform:rotate(90deg);}
+
+  ul.topics{list-style:none;margin:0 0 6px;padding:0 8px 6px;display:flex;flex-direction:column;gap:2px;}
+  ul.topics li label{
+    display:flex;align-items:flex-start;gap:10px;padding:7px 8px;border-radius:7px;cursor:pointer;
+    transition:background .12s;
+  }
+  ul.topics li label:hover{background:var(--panel-2);}
+
+  input[type="checkbox"]{
+    appearance:none;-webkit-appearance:none;flex:none;
+    width:17px;height:17px;margin-top:2px;border-radius:5px;
+    border:1.5px solid var(--line);background:var(--bg);
+    display:grid;place-content:center;cursor:pointer;transition:.15s;
+  }
+  input[type="checkbox"]::after{
+    content:"";width:9px;height:5px;border-left:2px solid var(--bg);border-bottom:2px solid var(--bg);
+    transform:rotate(-45deg) translateY(-1px);opacity:0;transition:.12s;
+  }
+  input[type="checkbox"]:checked::after{opacity:1;}
+
+  .subject[data-code="dbms"] input:checked{background:var(--dbms);border-color:var(--dbms);box-shadow:0 0 8px 0 rgba(94,234,212,.45);}
+  .subject[data-code="daa"] input:checked{background:var(--daa);border-color:var(--daa);box-shadow:0 0 8px 0 rgba(201,160,255,.45);}
+  .subject[data-code="micro"] input:checked{background:var(--micro);border-color:var(--micro);box-shadow:0 0 8px 0 rgba(255,180,84,.45);}
+  .subject[data-code="lab"] input:checked{background:var(--micro);border-color:var(--micro);box-shadow:0 0 8px 0 rgba(255,180,84,.45);}
+
+  .t-text{font-size:13.8px;color:var(--text);transition:.15s;}
+  input:checked ~ .t-text{color:var(--text-faint);text-decoration:line-through;text-decoration-color:var(--text-faint);}
+
+  /* ---------- FOOTER ---------- */
+  footer{max-width:860px;margin:26px auto 0;padding:18px 20px;color:var(--text-faint);font-size:12px;font-family:var(--mono);border-top:1px solid var(--line-soft);}
+  footer a{text-decoration:underline;text-decoration-color:var(--line);}
+
+  #toast{
+    position:fixed;left:50%;bottom:22px;translate:-50%;
+    background:var(--panel-2);border:1px solid var(--line);color:var(--text);
+    font-family:var(--mono);font-size:12.5px;padding:9px 16px;border-radius:8px;
+    opacity:0;pointer-events:none;transition:opacity .25s, transform .25s;
+    transform:translate(-50%, 6px);
+  }
+  #toast.show{opacity:1;transform:translate(-50%, 0);}
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important; scroll-behavior:auto !important;}
+  }
+
+  @media (max-width:520px){
+    .subj-text{display:none;}
+    .unit-hours{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">Semester 5 · Computer Science</p>
+    <h1>SYLLABUS ROADMAP.TRACK()</h1>
+    <p class="sub">Every topic from <b>Database Management Systems</b>, <b>Design &amp; Analysis of Algorithms</b>, and <b>Microprocessor and Its Applications (8085/8086)</b> — broken into checkable units. Your progress saves automatically in this browser.</p>
+
+    <div class="overall">
+      <div class="overall-row">
+        <div class="trace-track"><div class="trace-fill" id="overallFill"></div></div>
+        <span class="overall-pct" id="overallPct">0%</span>
+      </div>
+      <div class="legend">
+        <span><i class="dot" style="background:var(--dbms)"></i>DBMS</span>
+        <span><i class="dot" style="background:var(--daa)"></i>Algorithms</span>
+        <span><i class="dot" style="background:var(--micro)"></i>Microprocessor</span>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <button id="expandBtn" type="button">Expand all</button>
+      <button id="collapseBtn" type="button">Collapse all</button>
+      <span class="spacer"></span>
+      <button id="exportBtn" type="button">Export progress</button>
+      <button id="importBtn" type="button">Import progress</button>
+      <input type="file" id="importFile" accept="application/json" hidden>
+      <button id="resetBtn" type="button">Reset all</button>
+    </div>
+  </header>
+
+  <main id="app"></main>
+
+  <footer>
+    <div>Progress is stored in localStorage on this device/browser only. Use "Export progress" before switching devices or clearing browser data, then "Import progress" on the other side.</div>
+  </footer>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* ============ SYLLABUS DATA ============ */
+const DATA = [
+  {
+    id: "dbms", code: "dbms", tag: "CS-MJ-T-6",
+    name: "Database Management Systems",
+    units: [
+      { title: "Introduction", hours: 2, topics: [
+        "Concept & overview of DBMS","Data models","Database languages (DDL/DML/DCL overview)",
+        "Database Administrator (DBA) role","Database users (types)","Three-schema architecture",
+        "Characteristics of the database approach","Database system architecture & data independence"
+      ]},
+      { title: "Entity Relationship (ER) Modelling", hours: 5, topics: [
+        "Basic ER concepts (entities, attributes, relationships)","ER design issues",
+        "Mapping constraints (cardinality)","Keys (super, candidate, primary, foreign)",
+        "ER diagram notation & drawing","Weak entity sets",
+        "Extended ER features (generalization, specialization, aggregation)"
+      ]},
+      { title: "Relational Data Model", hours: 4, topics: [
+        "Structure of relational databases","Relational algebra (select, project, join, etc.)",
+        "Relational calculus (tuple & domain)","Extended relational algebra operations",
+        "Views","Modifications of the database (insert/update/delete)"
+      ]},
+      { title: "SQL and Integrity Constraints", hours: 6, topics: [
+        "DDL, DML, DCL concepts","Basic SQL structure (SELECT–FROM–WHERE)",
+        "Set operations (UNION, INTERSECT, EXCEPT)","Aggregate functions","Null values handling",
+        "Domain constraints","Referential integrity constraints","Assertions","Views (creation & use)",
+        "Nested subqueries","Database security & app development using SQL","Stored procedures and triggers"
+      ]},
+      { title: "Relational Database Design", hours: 8, topics: [
+        "Functional dependency","Anomalies in database design","Normalization using functional dependencies",
+        "Decomposition","Boyce–Codd Normal Form (BCNF)","Third Normal Form (3NF)",
+        "Normalization using multivalued dependencies","Fourth Normal Form (4NF)","Fifth Normal Form (5NF)"
+      ]},
+      { title: "Internals of RDBMS", hours: 5, topics: [
+        "Physical data structures","Query optimization: join algorithms",
+        "Statistics & cost-based optimization","Transaction processing (intro)"
+      ]},
+      { title: "Transaction Processing", hours: 5, topics: [
+        "ACID properties","Transaction model & properties","State serializability",
+        "Concurrency control","Lock-based protocols","Two-phase locking","Recovery management"
+      ]},
+      { title: "File Structure and Indexing", hours: 5, topics: [
+        "Operations on files","Unordered & ordered record files","Overview of file organizations",
+        "Primary index","Secondary index","Clustering index"
+      ]}
+    ]
+  },
+  {
+    id: "daa", code: "daa", tag: "CS-MJ-T-7",
+    name: "Design and Analysis of Algorithms",
+    units: [
+      { title: "Introduction & Analysis Technique", hours: 14, topics: [
+        "Definition & characteristics of an algorithm","Correctness of algorithm",
+        "Recursive algorithms","Non-recursive algorithms","Space complexity","Time complexity",
+        "Efficiency of an algorithm","Growth of functions","Polynomial vs exponential complexity",
+        "Big-O notation","Big-Ω (Omega) notation","Big-Θ (Theta) notation",
+        "Best / worst / average case analysis"
+      ]},
+      { title: "Searching and Sorting Techniques", hours: 10, topics: [
+        "Linear search","Binary search","Bubble sort","Insertion sort","Selection sort",
+        "Merge sort","Heap sort","Quick sort","Bucket sort (linear-time sorting)",
+        "Complexity analysis of sorting algorithms"
+      ]},
+      { title: "Algorithm Design Techniques", hours: 16, topics: [
+        "Greedy algorithms — concepts","Greedy algorithms — case studies",
+        "Divide and conquer — basic concepts","D&C case study: searching/sorting problems",
+        "Dynamic programming — general issues","DP case study: Binomial coefficient computation",
+        "Backtracking algorithms","Backtracking case study: N-Queens problem"
+      ]},
+      { title: "Graph Representation and Algorithms", hours: 12, topics: [
+        "Graph representation","BFS (Breadth-First Search)","DFS (Depth-First Search) & applications",
+        "Minimum Spanning Tree — Prim's algorithm","Minimum Spanning Tree — Kruskal's algorithm",
+        "Shortest path — Floyd's algorithm","Shortest path — Floyd–Warshall algorithm",
+        "Shortest path — Dijkstra's algorithm","Shortest path — Bellman–Ford algorithm",
+        "Graph coloring algorithms","Applications of trees, decision trees","Red-Black trees"
+      ]},
+      { title: "Classification of Problems", hours: 8, topics: [
+        "P class problems","NP class problems","Satisfiability (SAT) problem","Cook's theorem (statement only)"
+      ]}
+    ]
+  },
+  {
+    id: "micro", code: "micro", tag: "CS-MJ-T-8",
+    name: "Microprocessor and Its Applications (8085/8086)",
+    units: [
+      { title: "Introduction to Microprocessors & 8085 ALP", hours: 2, topics: [
+        "Instruction set & computer languages","8085 programming model",
+        "Instruction classification","Data format and storage"
+      ]},
+      { title: "8085 Microprocessor Architecture", hours: 8, topics: [
+        "Microprocessor architecture & operations","Memory & I/O devices overview","8085 MPU",
+        "8085-based microcomputer","Memory interfacing","8155 memory segment interfacing",
+        "I/O device interfacing basics","Memory-mapped I/O"
+      ]},
+      { title: "Programming 8085", hours: 9, topics: [
+        "Data transfer instructions","Arithmetic instructions","Logic instructions","Branch instructions",
+        "Writing & debugging ALPs","Looping, counting, indexing","16-bit arithmetic instructions",
+        "Counters and time delay"
+      ]},
+      { title: "Interfacing I/O Devices", hours: 6, topics: [
+        "Stack operations","Subroutines","Restart instructions","Conditional call/return instructions",
+        "Advanced subroutine concepts","Code conversion programs","BCD arithmetic & 16-bit operations",
+        "BCD–Binary / Binary–BCD conversion","BCD to seven-segment LED code conversion",
+        "Binary–ASCII / ASCII–Binary conversion","BCD addition & subtraction"
+      ]},
+      { title: "Interfacing Peripherals and Applications", hours: 9, topics: [
+        "8085 interrupt structure","RST instructions","Software vs hardware interrupts",
+        "Multiple interrupts & priorities","8085 vectored interrupts","8155 multipurpose programmable device",
+        "8279 keyboard/display interface","8255 programmable peripheral interface","Interrupts and DMA",
+        "Other peripherals (8251, 8253, 8237, 8259)","A/D and D/A converter interfacing"
+      ]},
+      { title: "Introduction to 8086", hours: 6, topics: [
+        "8086 architecture (16-bit)","Segmented memory","Bus cycles / read-write cycle (min/max mode)",
+        "Reset, wait, halt, hold, lock operations","Interrupt processing (8086)","Addressing modes",
+        "Software instruction set (string instr., repeat, segment override, lock prefix)"
+      ]}
+    ]
+  },
+  {
+    id: "lab", code: "lab", tag: "CS-MJ-P-8",
+    name: "Microprocessor Lab (Practical)",
+    units: [
+      { title: "Practical Exercises", hours: null, topics: [
+        "8-bit / 16-bit data transfer programs","Arithmetic operations (add/sub/mul/div)",
+        "Logical operations & bit manipulation","Branching & looping programs",
+        "Code conversion programs","Stack and subroutine programs",
+        "Interfacing experiments (8255 / 8253 / 8259, ADC/DAC) — simulator based"
+      ]}
+    ]
+  }
+];
+
+const STORAGE_KEY = "sem5-cs-roadmap-progress";
+
+/* ============ RENDER ============ */
+const app = document.getElementById("app");
+let state = loadState();
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : {};
+  }catch(e){ return {}; }
+}
+function saveState(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function render(){
+  app.innerHTML = "";
+  DATA.forEach(subject => {
+    const subjEl = document.createElement("details");
+    subjEl.className = "subject";
+    subjEl.dataset.code = subject.code;
+    subjEl.open = true;
+
+    const summary = document.createElement("summary");
+    summary.innerHTML = `
+      <div class="subject-head">
+        <span class="code-tag">${subject.tag}</span>
+        <h2>${subject.name}</h2>
+        <span class="chev">›</span>
+      </div>
+      <div class="subj-progress-row">
+        <div class="subj-track"><div class="subj-fill ${subject.code}" data-fill="${subject.id}"></div></div>
+        <span class="subj-text" data-text="${subject.id}">0/0 · 0%</span>
+      </div>
+    `;
+    subjEl.appendChild(summary);
+
+    const unitsWrap = document.createElement("div");
+    unitsWrap.className = "units";
+
+    subject.units.forEach((unit, uIdx) => {
+      const unitEl = document.createElement("details");
+      unitEl.className = "unit";
+      unitEl.open = subject.units.length <= 1;
+
+      const uSummary = document.createElement("summary");
+      const romanList = ["I","II","III","IV","V","VI","VII","VIII","IX","X"];
+      uSummary.innerHTML = `
+        <span class="unit-num">Unit ${romanList[uIdx] || (uIdx+1)}</span>
+        <span class="unit-title">${unit.title}</span>
+        ${unit.hours ? `<span class="unit-hours">${unit.hours} hrs</span>` : ``}
+        <span class="unit-count" data-ucount="${subject.id}-${uIdx}">0/${unit.topics.length}</span>
+        <span class="unit-chev">›</span>
+      `;
+      unitEl.appendChild(uSummary);
+
+      const ul = document.createElement("ul");
+      ul.className = "topics";
+      unit.topics.forEach((topic, tIdx) => {
+        const id = `${subject.id}-${uIdx}-${tIdx}`;
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <label>
+            <input type="checkbox" data-id="${id}" ${state[id] ? "checked" : ""}>
+            <span class="t-text">${topic}</span>
+          </label>
+        `;
+        ul.appendChild(li);
+      });
+      unitEl.appendChild(ul);
+      unitsWrap.appendChild(unitEl);
+    });
+
+    subjEl.appendChild(unitsWrap);
+    app.appendChild(subjEl);
+  });
+
+  app.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener("change", () => {
+      state[cb.dataset.id] = cb.checked;
+      saveState();
+      updateProgress();
+    });
+  });
+
+  updateProgress();
+}
+
+function updateProgress(){
+  let grandTotal = 0, grandDone = 0;
+
+  DATA.forEach(subject => {
+    let subjTotal = 0, subjDone = 0;
+    subject.units.forEach((unit, uIdx) => {
+      let uTotal = unit.topics.length, uDone = 0;
+      unit.topics.forEach((_, tIdx) => {
+        const id = `${subject.id}-${uIdx}-${tIdx}`;
+        if(state[id]) uDone++;
+      });
+      subjTotal += uTotal; subjDone += uDone;
+      const uCountEl = document.querySelector(`[data-ucount="${subject.id}-${uIdx}"]`);
+      if(uCountEl) uCountEl.textContent = `${uDone}/${uTotal}`;
+    });
+    grandTotal += subjTotal; grandDone += subjDone;
+
+    const pct = subjTotal ? Math.round((subjDone/subjTotal)*100) : 0;
+    const fillEl = document.querySelector(`[data-fill="${subject.id}"]`);
+    const textEl = document.querySelector(`[data-text="${subject.id}"]`);
+    if(fillEl) fillEl.style.width = pct + "%";
+    if(textEl) textEl.textContent = `${subjDone}/${subjTotal} · ${pct}%`;
+  });
+
+  const overallPct = grandTotal ? Math.round((grandDone/grandTotal)*100) : 0;
+  document.getElementById("overallFill").style.width = overallPct + "%";
+  document.getElementById("overallPct").textContent = overallPct + "%";
+}
+
+/* ============ TOOLBAR ============ */
+document.getElementById("expandBtn").addEventListener("click", () => {
+  document.querySelectorAll("details").forEach(d => d.open = true);
+});
+document.getElementById("collapseBtn").addEventListener("click", () => {
+  document.querySelectorAll("details.unit").forEach(d => d.open = false);
+});
+
+document.getElementById("resetBtn").addEventListener("click", () => {
+  if(confirm("Reset all checked progress? This cannot be undone.")){
+    state = {};
+    saveState();
+    render();
+    showToast("Progress reset");
+  }
+});
+
+document.getElementById("exportBtn").addEventListener("click", () => {
+  const blob = new Blob([JSON.stringify(state, null, 2)], {type: "application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "sem5-cs-roadmap-progress.json";
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast("Progress exported");
+});
+
+document.getElementById("importBtn").addEventListener("click", () => {
+  document.getElementById("importFile").click();
+});
+document.getElementById("importFile").addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (evt) => {
+    try{
+      const imported = JSON.parse(evt.target.result);
+      state = imported || {};
+      saveState();
+      render();
+      showToast("Progress imported");
+    }catch(err){
+      showToast("Import failed — invalid file");
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = "";
+});
+
+function showToast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(showToast._timer);
+  showToast._timer = setTimeout(() => t.classList.remove("show"), 2200);
+}
+
+render();
+</script>
+</body>
+</html>
